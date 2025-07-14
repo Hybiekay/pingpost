@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:twiiter_clone/constants/assets_constants.dart';
-import 'package:twiiter_clone/features/explore/view/explore_view.dart';
-import 'package:twiiter_clone/features/notifications/views/notification_view.dart';
-import 'package:twiiter_clone/features/widgets/tweet_list.dart';
-import 'package:twiiter_clone/theme/pallete.dart';
+import 'package:ping_post/constants/assets_constants.dart';
+import 'package:ping_post/features/explore/view/explore_view.dart';
+import 'package:ping_post/features/notifications/views/notification_view.dart';
+import 'package:ping_post/features/widgets/tweet_list.dart';
+import 'package:ping_post/theme/pallete.dart';
 
 class UIConstants {
   static AppBar appBar() {

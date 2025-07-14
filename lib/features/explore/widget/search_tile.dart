@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:twiiter_clone/features/users_profile/view/user_profile_view.dart';
-import 'package:twiiter_clone/theme/pallete.dart';
+import 'package:ping_post/features/users_profile/view/user_profile_view.dart';
+import 'package:ping_post/theme/pallete.dart';
 
 import '../../../models/user_model.dart';
 
@@ -16,9 +16,7 @@ class SearchTile extends StatelessWidget {
         Navigator.push(context, UserProfileView.route(userModel));
       },
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(
-          userModel.profilePic,
-        ),
+        backgroundImage: NetworkImage(userModel.profilePic),
         radius: 30,
       ),
       title: Text(
@@ -28,12 +26,7 @@ class SearchTile extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "@${userModel.name}",
-            style: TextStyle(
-              fontSize: 16,
-            ),
-          ),
+          Text("@${userModel.name}", style: TextStyle(fontSize: 16)),
           Text(
             userModel.bio,
             style: TextStyle(fontSize: 16, color: Pallete.whiteColor),

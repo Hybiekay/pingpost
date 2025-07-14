@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:twiiter_clone/core/enums/tweet_type_enum.dart';
+import 'package:ping_post/core/enums/tweet_type_enum.dart';
 
 @immutable
 class Tweet {

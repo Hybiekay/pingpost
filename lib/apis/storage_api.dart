@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twiiter_clone/constants/appwrite_constants.dart';
-import 'package:twiiter_clone/core/provider.dart';
+import 'package:ping_post/constants/appwrite_constants.dart';
+import 'package:ping_post/core/provider.dart';
 
 final storageAPIProvider = Provider((ref) {
   return StorageAPI(storage: ref.watch(appwriteStorageProvider));
@@ -17,11 +17,10 @@ class StorageAPI {
     List<String> imageLinks = [];
     for (final file in files) {
       final uploadedImage = await _storage.createFile(
-          bucketId: AppwriteConstants.imagesBucket,
-          fileId: ID.unique(),
-          file: InputFile(
-            path: file.path,
-          ));
+        bucketId: AppwriteConstants.imagesBucket,
+        fileId: ID.unique(),
+        file: InputFile(path: file.path),
+      );
       imageLinks.add(AppwriteConstants.imageUrl(uploadedImage.$id));
     }
     return imageLinks;

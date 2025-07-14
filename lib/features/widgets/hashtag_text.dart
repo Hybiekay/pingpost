@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:twiiter_clone/theme/theme.dart';
+import 'package:ping_post/theme/theme.dart';
 
 import '../tweet/views/hashtag_view.dart';
 
@@ -16,34 +16,28 @@ class HashtagText extends StatelessWidget {
       if (element.startsWith("#")) {
         textSpans.add(
           TextSpan(
-              text: '$element ',
-              style: const TextStyle(
-                  color: Pallete.blueColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  Navigator.push(context, HashtagView.route(element));
-                }),
+            text: '$element ',
+            style: const TextStyle(
+              color: Pallete.blueColor,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                Navigator.push(context, HashtagView.route(element));
+              },
+          ),
         );
       } else if (element.startsWith("www.") || element.startsWith("https://")) {
         textSpans.add(
           TextSpan(
             text: '$element ',
-            style: const TextStyle(
-              color: Pallete.blueColor,
-              fontSize: 18,
-            ),
+            style: const TextStyle(color: Pallete.blueColor, fontSize: 18),
           ),
         );
       } else {
         textSpans.add(
-          TextSpan(
-            text: '$element ',
-            style: const TextStyle(
-              fontSize: 18,
-            ),
-          ),
+          TextSpan(text: '$element ', style: const TextStyle(fontSize: 18)),
         );
       }
     });

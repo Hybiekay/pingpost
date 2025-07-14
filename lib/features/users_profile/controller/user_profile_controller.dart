@@ -1,29 +1,32 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twiiter_clone/apis/storage_api.dart';
-import 'package:twiiter_clone/apis/tweet_api.dart';
-import 'package:twiiter_clone/apis/user_api.dart';
-import 'package:twiiter_clone/core/utils.dart';
-import 'package:twiiter_clone/features/notifications/controller/notification_controller.dart';
-import 'package:twiiter_clone/models/tweet_model.dart';
+import 'package:ping_post/apis/storage_api.dart';
+import 'package:ping_post/apis/tweet_api.dart';
+import 'package:ping_post/apis/user_api.dart';
+import 'package:ping_post/core/utils.dart';
+import 'package:ping_post/features/notifications/controller/notification_controller.dart';
+import 'package:ping_post/models/tweet_model.dart';
 import 'dart:io';
 import '../../../core/enums/notification_type_enum.dart';
 import '../../../models/user_model.dart';
 
 final UserProfileControllerProvider =
     StateNotifierProvider<UserProfileController, bool>((ref) {
-  return UserProfileController(
-    tweetAPI: ref.watch(tweetAPIProvider),
-    storageAPI: ref.watch(storageAPIProvider),
-    userAPI: ref.watch(UserAPIProvider),
-    notificationController: ref.watch(notificationControllerProvider.notifier),
-  );
-});
+      return UserProfileController(
+        tweetAPI: ref.watch(tweetAPIProvider),
+        storageAPI: ref.watch(storageAPIProvider),
+        userAPI: ref.watch(UserAPIProvider),
+        notificationController: ref.watch(
+          notificationControllerProvider.notifier,
+        ),
+      );
+    });
 
 final getUserTweetsProvider = FutureProvider.family((ref, String uid) async {
-  final userProfileController =
-      ref.watch(UserProfileControllerProvider.notifier);
+  final userProfileController = ref.watch(
+    UserProfileControllerProvider.notifier,
+  );
   return userProfileController.getUserTweets(uid);
 });
 
@@ -42,38 +45,37 @@ class UserProfileController extends StateNotifier<bool> {
     required StorageAPI storageAPI,
     required UserAPI userAPI,
     required NotificationController notificationController,
-  })  : _tweetAPI = tweetAPI,
-        _storageAPI = storageAPI,
-        _userAPI = userAPI,
-        _notificationController = notificationController,
-        super(false);
+  }) : _tweetAPI = tweetAPI,
+       _storageAPI = storageAPI,
+       _userAPI = userAPI,
+       _notificationController = notificationController,
+       super(false);
   Future<List<Tweet>> getUserTweets(String uid) async {
     final tweets = await _tweetAPI.getUserTweet(uid);
     return tweets.map((e) => Tweet.fromMap(e.data)).toList();
   }
 
-  void updateUserProfile(
-      {required UserModel userModel,
-      required BuildContext context,
-      required File? bannerFile,
-      required File? profileImageFile}) async {
+  void updateUserProfile({
+    required UserModel userModel,
+    required BuildContext context,
+    required File? bannerFile,
+    required File? profileImageFile,
+  }) async {
     state = true;
     if (bannerFile != null) {
       final bannerUrl = await _storageAPI.uploadImage([bannerFile]);
-      userModel = userModel.copyWith(
-        bannerPic: bannerUrl[0],
-      );
+      userModel = userModel.copyWith(bannerPic: bannerUrl[0]);
     }
     if (profileImageFile != null) {
       final profileImageUrl = await _storageAPI.uploadImage([profileImageFile]);
-      userModel = userModel.copyWith(
-        profilePic: profileImageUrl[0],
-      );
+      userModel = userModel.copyWith(profilePic: profileImageUrl[0]);
     }
     final res = await _userAPI.updateUserData(userModel);
     state = false;
     res.fold(
-        (l) => showSnackBar(context, l.message), (r) => Navigator.pop(context));
+      (l) => showSnackBar(context, l.message),
+      (r) => Navigator.pop(context),
+    );
   }
 
   void followUser({
@@ -95,10 +97,11 @@ class UserProfileController extends StateNotifier<bool> {
       final res2 = await _userAPI.addToFollowing(currentUser);
       res2.fold((l) => showSnackBar(context, l.message), (r) {
         _notificationController.createNotification(
-            text: "${currentUser.name} followed you!",
-            postId: "",
-            notificationType: NotificationType.follow,
-            uid: user.uid);
+          text: "${currentUser.name} followed you!",
+          postId: "",
+          notificationType: NotificationType.follow,
+          uid: user.uid,
+        );
       });
     });
   }

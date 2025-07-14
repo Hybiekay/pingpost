@@ -1,4 +1,4 @@
-import 'package:twiiter_clone/core/enums/notification_type_enum.dart';
+import 'package:ping_post/core/enums/notification_type_enum.dart';
 
 class Notification {
   final String text;
@@ -47,8 +47,8 @@ class Notification {
       postId: map['postId'] ?? '',
       id: map['\$id'] ?? '',
       uid: map['uid'] ?? '',
-      notificationType:
-          (map['notificationType'] as String).toNotificationTypeEnum(),
+      notificationType: (map['notificationType'] as String)
+          .toNotificationTypeEnum(),
     );
   }
 

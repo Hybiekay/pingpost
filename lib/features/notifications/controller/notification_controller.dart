@@ -1,30 +1,32 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twiiter_clone/apis/notification_Api.dart';
-import 'package:twiiter_clone/models/notification_model.dart' as model;
+import 'package:ping_post/apis/notification_Api.dart';
+import 'package:ping_post/models/notification_model.dart' as model;
 import 'package:flutter/material.dart';
 import '../../../core/enums/notification_type_enum.dart';
 
 final notificationControllerProvider =
     StateNotifierProvider<NotificationController, bool>((ref) {
-  return NotificationController(
-    notificationAPI: ref.watch(notificationAPIProvider),
-  );
-});
+      return NotificationController(
+        notificationAPI: ref.watch(notificationAPIProvider),
+      );
+    });
 
 final getLatestNotificationProvider = StreamProvider((ref) {
   final notificationAPI = ref.watch(notificationAPIProvider);
   return notificationAPI.getLatestNotification();
 });
 final getNotificationsProvider = FutureProvider.family((ref, String uid) async {
-  final notificationController = ref.watch(notificationControllerProvider.notifier);
+  final notificationController = ref.watch(
+    notificationControllerProvider.notifier,
+  );
   return notificationController.getNotifications(uid);
 });
 
 class NotificationController extends StateNotifier<bool> {
   final NotificationAPI _notificationAPI;
   NotificationController({required NotificationAPI notificationAPI})
-      : _notificationAPI = notificationAPI,
-        super(false);
+    : _notificationAPI = notificationAPI,
+      super(false);
   void createNotification({
     required String text,
     required String postId,

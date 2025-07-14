@@ -3,16 +3,17 @@ import 'package:appwrite/models.dart' as model;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:twiiter_clone/constants/appwrite_constants.dart';
-import 'package:twiiter_clone/core/failure.dart';
-import 'package:twiiter_clone/core/provider.dart';
-import 'package:twiiter_clone/core/type_dafs.dart';
-import 'package:twiiter_clone/models/user_model.dart';
+import 'package:ping_post/constants/appwrite_constants.dart';
+import 'package:ping_post/core/failure.dart';
+import 'package:ping_post/core/provider.dart';
+import 'package:ping_post/core/type_dafs.dart';
+import 'package:ping_post/models/user_model.dart';
 
 final UserAPIProvider = Provider((ref) {
   return UserAPI(
-      db: ref.watch(appwriteDatabaseProvider),
-      realtime: ref.watch(appwriteRealtimeProvider));
+    db: ref.watch(appwriteDatabaseProvider),
+    realtime: ref.watch(appwriteRealtimeProvider),
+  );
 });
 
 abstract class IUserAPI {
@@ -29,8 +30,8 @@ class UserAPI implements IUserAPI {
   final Databases _db;
   final Realtime _realtime;
   UserAPI({required Databases db, required Realtime realtime})
-      : _db = db,
-        _realtime = realtime;
+    : _db = db,
+      _realtime = realtime;
   @override
   FutureEitherVoid saveUserData(UserModel userModel) async {
     try {
@@ -42,19 +43,9 @@ class UserAPI implements IUserAPI {
       );
       return right(null);
     } on AppwriteException catch (e, st) {
-      return left(
-        Failure(
-          e.message ?? 'Some unexpected error occurred',
-          st,
-        ),
-      );
+      return left(Failure(e.message ?? 'Some unexpected error occurred', st));
     } catch (e, st) {
-      return left(
-        Failure(
-          e.toString(),
-          st,
-        ),
-      );
+      return left(Failure(e.toString(), st));
     }
   }
 
@@ -70,9 +61,10 @@ class UserAPI implements IUserAPI {
   @override
   Future<List<model.Document>> searchUserByName(String name) async {
     final documents = await _db.listDocuments(
-        databaseId: AppwriteConstants.databaseId,
-        collectionId: AppwriteConstants.usersCollection,
-        queries: [Query.search("name", name)]);
+      databaseId: AppwriteConstants.databaseId,
+      collectionId: AppwriteConstants.usersCollection,
+      queries: [Query.search("name", name)],
+    );
     return documents.documents;
   }
 
@@ -87,26 +79,16 @@ class UserAPI implements IUserAPI {
       );
       return right(null);
     } on AppwriteException catch (e, st) {
-      return left(
-        Failure(
-          e.message ?? 'Some unexpected error occurred',
-          st,
-        ),
-      );
+      return left(Failure(e.message ?? 'Some unexpected error occurred', st));
     } catch (e, st) {
-      return left(
-        Failure(
-          e.toString(),
-          st,
-        ),
-      );
+      return left(Failure(e.toString(), st));
     }
   }
 
   @override
   Stream<RealtimeMessage> getLatestUserProfileData() {
     return _realtime.subscribe([
-      "databases.${AppwriteConstants.databaseId}.collections.${AppwriteConstants.usersCollection}.documents"
+      "databases.${AppwriteConstants.databaseId}.collections.${AppwriteConstants.usersCollection}.documents",
     ]).stream;
   }
 
@@ -121,19 +103,9 @@ class UserAPI implements IUserAPI {
       );
       return right(null);
     } on AppwriteException catch (e, st) {
-      return left(
-        Failure(
-          e.message ?? 'Some unexpected error occurred',
-          st,
-        ),
-      );
+      return left(Failure(e.message ?? 'Some unexpected error occurred', st));
     } catch (e, st) {
-      return left(
-        Failure(
-          e.toString(),
-          st,
-        ),
-      );
+      return left(Failure(e.toString(), st));
     }
   }
 
@@ -148,19 +120,9 @@ class UserAPI implements IUserAPI {
       );
       return right(null);
     } on AppwriteException catch (e, st) {
-      return left(
-        Failure(
-          e.message ?? 'Some unexpected error occurred',
-          st,
-        ),
-      );
+      return left(Failure(e.message ?? 'Some unexpected error occurred', st));
     } catch (e, st) {
-      return left(
-        Failure(
-          e.toString(),
-          st,
-        ),
-      );
+      return left(Failure(e.toString(), st));
     }
   }
 }

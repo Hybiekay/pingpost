@@ -1,4 +1,4 @@
-package com.example.twiiter_clone
+package com.example.ping_post
 
 import io.flutter.embedding.android.FlutterActivity
 

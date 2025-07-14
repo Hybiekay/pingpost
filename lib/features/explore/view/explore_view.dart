@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:twiiter_clone/common/common.dart';
-import 'package:twiiter_clone/common/loading_page.dart';
-import 'package:twiiter_clone/features/explore/controller/explore_controller.dart';
-import 'package:twiiter_clone/features/explore/widget/search_tile.dart';
-import 'package:twiiter_clone/theme/pallete.dart';
+import 'package:ping_post/common/common.dart';
+import 'package:ping_post/common/loading_page.dart';
+import 'package:ping_post/features/explore/controller/explore_controller.dart';
+import 'package:ping_post/features/explore/widget/search_tile.dart';
+import 'package:ping_post/theme/pallete.dart';
 
 class ExploreView extends ConsumerStatefulWidget {
   const ExploreView({super.key});
@@ -26,9 +26,7 @@ class _ExploreViewState extends ConsumerState<ExploreView> {
   Widget build(BuildContext context) {
     final appBarTextfieldBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(50),
-      borderSide: const BorderSide(
-        color: Pallete.searchBarColor,
-      ),
+      borderSide: const BorderSide(color: Pallete.searchBarColor),
     );
     return Scaffold(
       appBar: AppBar(
@@ -42,28 +40,32 @@ class _ExploreViewState extends ConsumerState<ExploreView> {
               });
             },
             decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(10).copyWith(left: 20),
-                fillColor: Pallete.searchBarColor,
-                filled: true,
-                enabledBorder: appBarTextfieldBorder,
-                focusedBorder: appBarTextfieldBorder,
-                hintText: "Search Twitter"),
+              contentPadding: EdgeInsets.all(10).copyWith(left: 20),
+              fillColor: Pallete.searchBarColor,
+              filled: true,
+              enabledBorder: appBarTextfieldBorder,
+              focusedBorder: appBarTextfieldBorder,
+              hintText: "Search Twitter",
+            ),
           ),
         ),
       ),
       body: isShowUsers
-          ? ref.watch(searchUserProvider(searchController.text)).when(
-                data: (users) {
-                  return ListView.builder(
+          ? ref
+                .watch(searchUserProvider(searchController.text))
+                .when(
+                  data: (users) {
+                    return ListView.builder(
                       itemCount: users.length,
                       itemBuilder: (BuildContext context, int index) {
                         final user = users[index];
                         return SearchTile(userModel: user);
-                      });
-                },
-                error: (error, st) => ErrorText(error: error.toString()),
-                loading: () => const Loader(),
-              )
+                      },
+                    );
+                  },
+                  error: (error, st) => ErrorText(error: error.toString()),
+                  loading: () => const Loader(),
+                )
           : const SizedBox(),
     );
   }

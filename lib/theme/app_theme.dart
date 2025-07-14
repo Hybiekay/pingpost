@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:twiiter_clone/theme/pallete.dart';
-
+import 'package:ping_post/theme/pallete.dart';
 
 class AppTheme {
   static ThemeData theme = ThemeData.dark().copyWith(

@@ -4,17 +4,16 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:twiiter_clone/common/common.dart';
-import 'package:twiiter_clone/constants/assets_constants.dart';
-import 'package:twiiter_clone/core/utils.dart';
-import 'package:twiiter_clone/features/auth/controller/auth_controller.dart';
-import 'package:twiiter_clone/features/tweet/controller/tweet_controller.dart';
-import 'package:twiiter_clone/theme/pallete.dart';
+import 'package:ping_post/common/common.dart';
+import 'package:ping_post/constants/assets_constants.dart';
+import 'package:ping_post/core/utils.dart';
+import 'package:ping_post/features/auth/controller/auth_controller.dart';
+import 'package:ping_post/features/tweet/controller/tweet_controller.dart';
+import 'package:ping_post/theme/pallete.dart';
 
 class CreateTweetScreen extends ConsumerStatefulWidget {
-  static route() => MaterialPageRoute(
-        builder: (context) => const CreateTweetScreen(),
-      );
+  static route() =>
+      MaterialPageRoute(builder: (context) => const CreateTweetScreen());
   const CreateTweetScreen({super.key});
 
   @override
@@ -32,7 +31,9 @@ class _CreateTweetScreenState extends ConsumerState<CreateTweetScreen> {
   }
 
   void shareTweet() {
-    ref.read(tweetControllerProvider.notifier).shareTweet(
+    ref
+        .read(tweetControllerProvider.notifier)
+        .shareTweet(
           images: images,
           text: tweetTextController.text,
           context: context,
@@ -84,33 +85,30 @@ class _CreateTweetScreenState extends ConsumerState<CreateTweetScreen> {
                         Expanded(
                           child: TextField(
                             controller: tweetTextController,
-                            style: const TextStyle(
-                              fontSize: 22,
-                            ),
+                            style: const TextStyle(fontSize: 22),
                             decoration: const InputDecoration(
                               hintText: "What's happening?",
                               hintStyle: TextStyle(
-                                  color: Pallete.greyColor,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600),
+                                color: Pallete.greyColor,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w600,
+                              ),
                               border: InputBorder.none,
                             ),
                             maxLines: null,
                           ),
-                        )
+                        ),
                       ],
                     ),
                     if (images.isNotEmpty)
                       CarouselSlider(
-                        items: images.map(
-                          (file) {
-                            return Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.symmetric(horizontal: 5),
-                              child: Image.file(file),
-                            );
-                          },
-                        ).toList(),
+                        items: images.map((file) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5),
+                            child: Image.file(file),
+                          );
+                        }).toList(),
                         options: CarouselOptions(
                           height: 400,
                           enableInfiniteScroll: false,
@@ -123,37 +121,25 @@ class _CreateTweetScreenState extends ConsumerState<CreateTweetScreen> {
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(bottom: 10),
         decoration: const BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: Pallete.greyColor,
-            ),
-          ),
+          border: Border(top: BorderSide(color: Pallete.greyColor)),
         ),
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0).copyWith(
-                left: 15,
-                right: 15,
-              ),
+              padding: const EdgeInsets.all(8.0).copyWith(left: 15, right: 15),
               child: GestureDetector(
-                  onTap: onPickImages,
-                  child: SvgPicture.asset(AssetsConstants.galleryIcon)),
+                onTap: onPickImages,
+                child: SvgPicture.asset(AssetsConstants.galleryIcon),
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0).copyWith(
-                left: 15,
-                right: 15,
-              ),
+              padding: const EdgeInsets.all(8.0).copyWith(left: 15, right: 15),
               child: SvgPicture.asset(AssetsConstants.gifIcon),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0).copyWith(
-                left: 15,
-                right: 15,
-              ),
+              padding: const EdgeInsets.all(8.0).copyWith(left: 15, right: 15),
               child: SvgPicture.asset(AssetsConstants.emojiIcon),
-            )
+            ),
           ],
         ),
       ),
